@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  
 }
 
 datasource db {
@@ -38,4 +38,51 @@ model User {
   name    String?
   posts   Post[]
   profile Profile?
+}
+
+model Taxation {
+  id                Int              @id @default(autoincrement())
+  title             String
+  taxRate           Float
+  effectiveFrom     DateTime
+  effectiveTo       DateTime
+  createdBy         String
+  documentNumber    String?
+  remarks           String?
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  // Nested relations
+  employeeInfo      EmployeeInfo     @relation(fields: [employeeInfoId], references: [id])
+  employeeInfoId    Int
+  employeeAddress   EmployeeAddress  @relation(fields: [employeeAddressId], references: [id])
+  employeeAddressId Int
+}
+
+model EmployeeInfo {
+  id            Int        @id @default(autoincrement())
+  name          String
+  age           Int
+  designation   String
+  maritalStatus String
+  department    String?
+  joiningDate   DateTime
+  isActive      Boolean     @default(true)
+
+  taxations     Taxation[]
+}
+
+model EmployeeAddress {
+  id        Int       @id @default(autoincrement())
+  houseNo   String
+  street    String
+  city      String
+  state     String
+  country   String
+  pinCode   String
+  landmark  String?
+
+  isActive  Boolean   @default(true)
+  taxations Taxation[]
 }

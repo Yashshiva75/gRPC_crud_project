@@ -4,6 +4,8 @@ import { Client } from 'pg';
 import grpc from '@grpc/grpc-js';
 import protoLoader from '@grpc/proto-loader';
 const PROTO_PATH = './src/hello.proto';
+import {CreateTaxations,GetTaxationById,UpdateTaxations} from "./controllers/taxations.js"
+import { status } from "@grpc/grpc-js";
 
 dotenv.config()
 
@@ -69,7 +71,11 @@ const server = new grpc.Server();
 // Add service to the server
 server.addService(helloPackage.HelloService.service, { sayHello,add,idGetter });
 
-
+server.addService(helloPackage.TaxationService.service, {
+  CreateTaxations,
+  GetTaxationById,
+  UpdateTaxations
+});
 // Start the server
 server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50051');

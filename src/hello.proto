@@ -7,6 +7,69 @@ service HelloService {
   rpc sayHello (HelloRequest) returns (HelloResponse);
   rpc add (addRequest) returns (addResponse);
   rpc idGetter(idRequest) returns (idResponse);
+  
+}
+
+service TaxationService {
+  // Bidirectional streaming
+  rpc CreateTaxations(stream TaxationData) returns (stream TaxationResponse);
+  rpc UpdateTaxations(stream TaxationData) returns (stream TaxationResponse);
+  rpc DeleteTaxations(stream TaxationId) returns (stream DeleteResponse);
+  rpc GetAllTaxations(Empty) returns (stream TaxationData);
+  rpc GetTaxationById(TaxationId) returns (TaxationResponse);
+}
+
+// Messages
+message TaxationId {
+  int32 id = 1;
+}
+
+message Empty {}
+
+message DeleteResponse {
+  string status = 1;
+  repeated int32 deletedIds = 2;
+}
+
+message TaxationData {
+  int32 id = 1;
+  string title = 2;
+  float taxRate = 3;
+  string effectiveFrom = 4;
+  string effectiveTo = 5;
+  string createdBy = 6;
+  string documentNumber = 7;
+  string remarks = 8;
+  bool isActive = 9;
+  string createdAt = 10;
+  EmployeeInfo info = 11;
+  EmployeeAddress address = 12;
+}
+
+message EmployeeInfo {
+  string name = 1;
+  int32 age = 2;
+  string designation = 3;
+  string maritalStatus = 4;
+  string department = 5;
+  string joiningDate = 6;
+  bool isActive = 7;
+}
+
+message EmployeeAddress {
+  string houseNo = 1;
+  string street = 2;
+  string city = 3;
+  string state = 4;
+  string country = 5;
+  string pinCode = 6;
+  string landmark = 7;
+  bool isActive = 8;
+}
+
+message TaxationResponse {
+  string message = 1;
+  TaxationData data = 2;
 }
 
 // Define the request and response message types

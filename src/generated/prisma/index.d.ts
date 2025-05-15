@@ -28,6 +28,11 @@ export type Profile = $Result.DefaultSelection<Prisma.$ProfilePayload>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Taxation
+ * 
+ */
+export type Taxation = $Result.DefaultSelection<Prisma.$TaxationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -183,6 +188,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.taxation`: Exposes CRUD operations for the **Taxation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Taxations
+    * const taxations = await prisma.taxation.findMany()
+    * ```
+    */
+  get taxation(): Prisma.TaxationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -625,7 +640,8 @@ export namespace Prisma {
   export const ModelName: {
     Post: 'Post',
     Profile: 'Profile',
-    User: 'User'
+    User: 'User',
+    Taxation: 'Taxation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -644,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "profile" | "user"
+      modelProps: "post" | "profile" | "user" | "taxation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -870,6 +886,80 @@ export namespace Prisma {
           }
         }
       }
+      Taxation: {
+        payload: Prisma.$TaxationPayload<ExtArgs>
+        fields: Prisma.TaxationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TaxationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TaxationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          findFirst: {
+            args: Prisma.TaxationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TaxationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          findMany: {
+            args: Prisma.TaxationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>[]
+          }
+          create: {
+            args: Prisma.TaxationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          createMany: {
+            args: Prisma.TaxationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TaxationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>[]
+          }
+          delete: {
+            args: Prisma.TaxationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          update: {
+            args: Prisma.TaxationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          deleteMany: {
+            args: Prisma.TaxationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TaxationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TaxationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>[]
+          }
+          upsert: {
+            args: Prisma.TaxationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaxationPayload>
+          }
+          aggregate: {
+            args: Prisma.TaxationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTaxation>
+          }
+          groupBy: {
+            args: Prisma.TaxationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TaxationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TaxationCountArgs<ExtArgs>
+            result: $Utils.Optional<TaxationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -957,6 +1047,7 @@ export namespace Prisma {
     post?: PostOmit
     profile?: ProfileOmit
     user?: UserOmit
+    taxation?: TaxationOmit
   }
 
   /* Types for Logging */
@@ -4375,6 +4466,1039 @@ export namespace Prisma {
 
 
   /**
+   * Model Taxation
+   */
+
+  export type AggregateTaxation = {
+    _count: TaxationCountAggregateOutputType | null
+    _avg: TaxationAvgAggregateOutputType | null
+    _sum: TaxationSumAggregateOutputType | null
+    _min: TaxationMinAggregateOutputType | null
+    _max: TaxationMaxAggregateOutputType | null
+  }
+
+  export type TaxationAvgAggregateOutputType = {
+    id: number | null
+    taxRate: number | null
+  }
+
+  export type TaxationSumAggregateOutputType = {
+    id: number | null
+    taxRate: number | null
+  }
+
+  export type TaxationMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    taxRate: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TaxationMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    taxRate: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TaxationCountAggregateOutputType = {
+    id: number
+    title: number
+    taxRate: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TaxationAvgAggregateInputType = {
+    id?: true
+    taxRate?: true
+  }
+
+  export type TaxationSumAggregateInputType = {
+    id?: true
+    taxRate?: true
+  }
+
+  export type TaxationMinAggregateInputType = {
+    id?: true
+    title?: true
+    taxRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaxationMaxAggregateInputType = {
+    id?: true
+    title?: true
+    taxRate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaxationCountAggregateInputType = {
+    id?: true
+    title?: true
+    taxRate?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TaxationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Taxation to aggregate.
+     */
+    where?: TaxationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxations to fetch.
+     */
+    orderBy?: TaxationOrderByWithRelationInput | TaxationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TaxationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Taxations
+    **/
+    _count?: true | TaxationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TaxationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TaxationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TaxationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TaxationMaxAggregateInputType
+  }
+
+  export type GetTaxationAggregateType<T extends TaxationAggregateArgs> = {
+        [P in keyof T & keyof AggregateTaxation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTaxation[P]>
+      : GetScalarType<T[P], AggregateTaxation[P]>
+  }
+
+
+
+
+  export type TaxationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaxationWhereInput
+    orderBy?: TaxationOrderByWithAggregationInput | TaxationOrderByWithAggregationInput[]
+    by: TaxationScalarFieldEnum[] | TaxationScalarFieldEnum
+    having?: TaxationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TaxationCountAggregateInputType | true
+    _avg?: TaxationAvgAggregateInputType
+    _sum?: TaxationSumAggregateInputType
+    _min?: TaxationMinAggregateInputType
+    _max?: TaxationMaxAggregateInputType
+  }
+
+  export type TaxationGroupByOutputType = {
+    id: number
+    title: string
+    taxRate: number
+    createdAt: Date
+    updatedAt: Date
+    _count: TaxationCountAggregateOutputType | null
+    _avg: TaxationAvgAggregateOutputType | null
+    _sum: TaxationSumAggregateOutputType | null
+    _min: TaxationMinAggregateOutputType | null
+    _max: TaxationMaxAggregateOutputType | null
+  }
+
+  type GetTaxationGroupByPayload<T extends TaxationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TaxationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TaxationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TaxationGroupByOutputType[P]>
+            : GetScalarType<T[P], TaxationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TaxationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    taxRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["taxation"]>
+
+  export type TaxationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    taxRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["taxation"]>
+
+  export type TaxationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    taxRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["taxation"]>
+
+  export type TaxationSelectScalar = {
+    id?: boolean
+    title?: boolean
+    taxRate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TaxationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "taxRate" | "createdAt" | "updatedAt", ExtArgs["result"]["taxation"]>
+
+  export type $TaxationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Taxation"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      taxRate: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["taxation"]>
+    composites: {}
+  }
+
+  type TaxationGetPayload<S extends boolean | null | undefined | TaxationDefaultArgs> = $Result.GetResult<Prisma.$TaxationPayload, S>
+
+  type TaxationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TaxationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TaxationCountAggregateInputType | true
+    }
+
+  export interface TaxationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Taxation'], meta: { name: 'Taxation' } }
+    /**
+     * Find zero or one Taxation that matches the filter.
+     * @param {TaxationFindUniqueArgs} args - Arguments to find a Taxation
+     * @example
+     * // Get one Taxation
+     * const taxation = await prisma.taxation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TaxationFindUniqueArgs>(args: SelectSubset<T, TaxationFindUniqueArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Taxation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TaxationFindUniqueOrThrowArgs} args - Arguments to find a Taxation
+     * @example
+     * // Get one Taxation
+     * const taxation = await prisma.taxation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TaxationFindUniqueOrThrowArgs>(args: SelectSubset<T, TaxationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Taxation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationFindFirstArgs} args - Arguments to find a Taxation
+     * @example
+     * // Get one Taxation
+     * const taxation = await prisma.taxation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TaxationFindFirstArgs>(args?: SelectSubset<T, TaxationFindFirstArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Taxation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationFindFirstOrThrowArgs} args - Arguments to find a Taxation
+     * @example
+     * // Get one Taxation
+     * const taxation = await prisma.taxation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TaxationFindFirstOrThrowArgs>(args?: SelectSubset<T, TaxationFindFirstOrThrowArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Taxations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Taxations
+     * const taxations = await prisma.taxation.findMany()
+     * 
+     * // Get first 10 Taxations
+     * const taxations = await prisma.taxation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const taxationWithIdOnly = await prisma.taxation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TaxationFindManyArgs>(args?: SelectSubset<T, TaxationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Taxation.
+     * @param {TaxationCreateArgs} args - Arguments to create a Taxation.
+     * @example
+     * // Create one Taxation
+     * const Taxation = await prisma.taxation.create({
+     *   data: {
+     *     // ... data to create a Taxation
+     *   }
+     * })
+     * 
+     */
+    create<T extends TaxationCreateArgs>(args: SelectSubset<T, TaxationCreateArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Taxations.
+     * @param {TaxationCreateManyArgs} args - Arguments to create many Taxations.
+     * @example
+     * // Create many Taxations
+     * const taxation = await prisma.taxation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TaxationCreateManyArgs>(args?: SelectSubset<T, TaxationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Taxations and returns the data saved in the database.
+     * @param {TaxationCreateManyAndReturnArgs} args - Arguments to create many Taxations.
+     * @example
+     * // Create many Taxations
+     * const taxation = await prisma.taxation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Taxations and only return the `id`
+     * const taxationWithIdOnly = await prisma.taxation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TaxationCreateManyAndReturnArgs>(args?: SelectSubset<T, TaxationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Taxation.
+     * @param {TaxationDeleteArgs} args - Arguments to delete one Taxation.
+     * @example
+     * // Delete one Taxation
+     * const Taxation = await prisma.taxation.delete({
+     *   where: {
+     *     // ... filter to delete one Taxation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TaxationDeleteArgs>(args: SelectSubset<T, TaxationDeleteArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Taxation.
+     * @param {TaxationUpdateArgs} args - Arguments to update one Taxation.
+     * @example
+     * // Update one Taxation
+     * const taxation = await prisma.taxation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TaxationUpdateArgs>(args: SelectSubset<T, TaxationUpdateArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Taxations.
+     * @param {TaxationDeleteManyArgs} args - Arguments to filter Taxations to delete.
+     * @example
+     * // Delete a few Taxations
+     * const { count } = await prisma.taxation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TaxationDeleteManyArgs>(args?: SelectSubset<T, TaxationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Taxations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Taxations
+     * const taxation = await prisma.taxation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TaxationUpdateManyArgs>(args: SelectSubset<T, TaxationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Taxations and returns the data updated in the database.
+     * @param {TaxationUpdateManyAndReturnArgs} args - Arguments to update many Taxations.
+     * @example
+     * // Update many Taxations
+     * const taxation = await prisma.taxation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Taxations and only return the `id`
+     * const taxationWithIdOnly = await prisma.taxation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TaxationUpdateManyAndReturnArgs>(args: SelectSubset<T, TaxationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Taxation.
+     * @param {TaxationUpsertArgs} args - Arguments to update or create a Taxation.
+     * @example
+     * // Update or create a Taxation
+     * const taxation = await prisma.taxation.upsert({
+     *   create: {
+     *     // ... data to create a Taxation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Taxation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TaxationUpsertArgs>(args: SelectSubset<T, TaxationUpsertArgs<ExtArgs>>): Prisma__TaxationClient<$Result.GetResult<Prisma.$TaxationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Taxations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationCountArgs} args - Arguments to filter Taxations to count.
+     * @example
+     * // Count the number of Taxations
+     * const count = await prisma.taxation.count({
+     *   where: {
+     *     // ... the filter for the Taxations we want to count
+     *   }
+     * })
+    **/
+    count<T extends TaxationCountArgs>(
+      args?: Subset<T, TaxationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TaxationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Taxation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TaxationAggregateArgs>(args: Subset<T, TaxationAggregateArgs>): Prisma.PrismaPromise<GetTaxationAggregateType<T>>
+
+    /**
+     * Group by Taxation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TaxationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TaxationGroupByArgs['orderBy'] }
+        : { orderBy?: TaxationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TaxationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaxationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Taxation model
+   */
+  readonly fields: TaxationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Taxation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TaxationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Taxation model
+   */
+  interface TaxationFieldRefs {
+    readonly id: FieldRef<"Taxation", 'Int'>
+    readonly title: FieldRef<"Taxation", 'String'>
+    readonly taxRate: FieldRef<"Taxation", 'Float'>
+    readonly createdAt: FieldRef<"Taxation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Taxation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Taxation findUnique
+   */
+  export type TaxationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter, which Taxation to fetch.
+     */
+    where: TaxationWhereUniqueInput
+  }
+
+  /**
+   * Taxation findUniqueOrThrow
+   */
+  export type TaxationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter, which Taxation to fetch.
+     */
+    where: TaxationWhereUniqueInput
+  }
+
+  /**
+   * Taxation findFirst
+   */
+  export type TaxationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter, which Taxation to fetch.
+     */
+    where?: TaxationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxations to fetch.
+     */
+    orderBy?: TaxationOrderByWithRelationInput | TaxationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Taxations.
+     */
+    cursor?: TaxationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Taxations.
+     */
+    distinct?: TaxationScalarFieldEnum | TaxationScalarFieldEnum[]
+  }
+
+  /**
+   * Taxation findFirstOrThrow
+   */
+  export type TaxationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter, which Taxation to fetch.
+     */
+    where?: TaxationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxations to fetch.
+     */
+    orderBy?: TaxationOrderByWithRelationInput | TaxationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Taxations.
+     */
+    cursor?: TaxationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Taxations.
+     */
+    distinct?: TaxationScalarFieldEnum | TaxationScalarFieldEnum[]
+  }
+
+  /**
+   * Taxation findMany
+   */
+  export type TaxationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter, which Taxations to fetch.
+     */
+    where?: TaxationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxations to fetch.
+     */
+    orderBy?: TaxationOrderByWithRelationInput | TaxationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Taxations.
+     */
+    cursor?: TaxationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxations.
+     */
+    skip?: number
+    distinct?: TaxationScalarFieldEnum | TaxationScalarFieldEnum[]
+  }
+
+  /**
+   * Taxation create
+   */
+  export type TaxationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Taxation.
+     */
+    data: XOR<TaxationCreateInput, TaxationUncheckedCreateInput>
+  }
+
+  /**
+   * Taxation createMany
+   */
+  export type TaxationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Taxations.
+     */
+    data: TaxationCreateManyInput | TaxationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Taxation createManyAndReturn
+   */
+  export type TaxationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Taxations.
+     */
+    data: TaxationCreateManyInput | TaxationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Taxation update
+   */
+  export type TaxationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Taxation.
+     */
+    data: XOR<TaxationUpdateInput, TaxationUncheckedUpdateInput>
+    /**
+     * Choose, which Taxation to update.
+     */
+    where: TaxationWhereUniqueInput
+  }
+
+  /**
+   * Taxation updateMany
+   */
+  export type TaxationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Taxations.
+     */
+    data: XOR<TaxationUpdateManyMutationInput, TaxationUncheckedUpdateManyInput>
+    /**
+     * Filter which Taxations to update
+     */
+    where?: TaxationWhereInput
+    /**
+     * Limit how many Taxations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Taxation updateManyAndReturn
+   */
+  export type TaxationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * The data used to update Taxations.
+     */
+    data: XOR<TaxationUpdateManyMutationInput, TaxationUncheckedUpdateManyInput>
+    /**
+     * Filter which Taxations to update
+     */
+    where?: TaxationWhereInput
+    /**
+     * Limit how many Taxations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Taxation upsert
+   */
+  export type TaxationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Taxation to update in case it exists.
+     */
+    where: TaxationWhereUniqueInput
+    /**
+     * In case the Taxation found by the `where` argument doesn't exist, create a new Taxation with this data.
+     */
+    create: XOR<TaxationCreateInput, TaxationUncheckedCreateInput>
+    /**
+     * In case the Taxation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TaxationUpdateInput, TaxationUncheckedUpdateInput>
+  }
+
+  /**
+   * Taxation delete
+   */
+  export type TaxationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+    /**
+     * Filter which Taxation to delete.
+     */
+    where: TaxationWhereUniqueInput
+  }
+
+  /**
+   * Taxation deleteMany
+   */
+  export type TaxationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Taxations to delete
+     */
+    where?: TaxationWhereInput
+    /**
+     * Limit how many Taxations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Taxation without action
+   */
+  export type TaxationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Taxation
+     */
+    select?: TaxationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Taxation
+     */
+    omit?: TaxationOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4417,6 +5541,17 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const TaxationScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    taxRate: 'taxRate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TaxationScalarFieldEnum = (typeof TaxationScalarFieldEnum)[keyof typeof TaxationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4678,6 +5813,60 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
+  export type TaxationWhereInput = {
+    AND?: TaxationWhereInput | TaxationWhereInput[]
+    OR?: TaxationWhereInput[]
+    NOT?: TaxationWhereInput | TaxationWhereInput[]
+    id?: IntFilter<"Taxation"> | number
+    title?: StringFilter<"Taxation"> | string
+    taxRate?: FloatFilter<"Taxation"> | number
+    createdAt?: DateTimeFilter<"Taxation"> | Date | string
+    updatedAt?: DateTimeFilter<"Taxation"> | Date | string
+  }
+
+  export type TaxationOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    taxRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaxationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TaxationWhereInput | TaxationWhereInput[]
+    OR?: TaxationWhereInput[]
+    NOT?: TaxationWhereInput | TaxationWhereInput[]
+    title?: StringFilter<"Taxation"> | string
+    taxRate?: FloatFilter<"Taxation"> | number
+    createdAt?: DateTimeFilter<"Taxation"> | Date | string
+    updatedAt?: DateTimeFilter<"Taxation"> | Date | string
+  }, "id">
+
+  export type TaxationOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    taxRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TaxationCountOrderByAggregateInput
+    _avg?: TaxationAvgOrderByAggregateInput
+    _max?: TaxationMaxOrderByAggregateInput
+    _min?: TaxationMinOrderByAggregateInput
+    _sum?: TaxationSumOrderByAggregateInput
+  }
+
+  export type TaxationScalarWhereWithAggregatesInput = {
+    AND?: TaxationScalarWhereWithAggregatesInput | TaxationScalarWhereWithAggregatesInput[]
+    OR?: TaxationScalarWhereWithAggregatesInput[]
+    NOT?: TaxationScalarWhereWithAggregatesInput | TaxationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Taxation"> | number
+    title?: StringWithAggregatesFilter<"Taxation"> | string
+    taxRate?: FloatWithAggregatesFilter<"Taxation"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Taxation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Taxation"> | Date | string
+  }
+
   export type PostCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4827,6 +6016,59 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TaxationCreateInput = {
+    title: string
+    taxRate: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaxationUncheckedCreateInput = {
+    id?: number
+    title: string
+    taxRate: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaxationUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaxationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaxationCreateManyInput = {
+    id?: number
+    title: string
+    taxRate: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TaxationUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaxationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -5079,6 +6321,67 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type TaxationCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    taxRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaxationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    taxRate?: SortOrder
+  }
+
+  export type TaxationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    taxRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaxationMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    taxRate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaxationSumOrderByAggregateInput = {
+    id?: SortOrder
+    taxRate?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -5203,6 +6506,14 @@ export namespace Prisma {
     delete?: ProfileWhereInput | boolean
     connect?: ProfileWhereUniqueInput
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5352,6 +6663,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutPostsInput = {

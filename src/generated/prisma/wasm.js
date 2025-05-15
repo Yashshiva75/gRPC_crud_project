@@ -142,6 +142,14 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.TaxationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  taxRate: 'taxRate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -161,7 +169,8 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Post: 'Post',
   Profile: 'Profile',
-  User: 'User'
+  User: 'User',
+  Taxation: 'Taxation'
 };
 
 /**
