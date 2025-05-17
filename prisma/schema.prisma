@@ -86,3 +86,57 @@ model EmployeeAddress {
   isActive  Boolean   @default(true)
   taxations Taxation[]
 }
+
+//Account 
+enum AccountType{
+  Current
+  Savings
+  Fixed_deposit
+}
+
+enum AccountStatus{
+  Active
+  Inactive
+}
+
+model Account {
+  id             String        @id @default(uuid()) @db.Uuid
+  holderName     String
+  accountNumber  String        @unique
+  type           AccountType
+  status         AccountStatus @default(Active)
+  balance        Float
+  openedAt       DateTime
+  isActive       Boolean       @default(true)
+  
+  contactInfo    ContactInfo?  @relation(fields: [contactInfoId], references: [id])
+  contactInfoId  String?       @unique @db.Uuid
+
+  kycDetails     KycDetails?   @relation(fields: [kycDetailsId], references: [id])
+  kycDetailsId   String?       @unique @db.Uuid
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model ContactInfo {
+  id         String   @id @default(uuid()) @db.Uuid
+  phone      String
+  email      String
+  address    String
+  city       String
+  pincode    String
+  country    String
+  isActive   Boolean  @default(true)
+
+  account    Account?
+}
+
+model KycDetails {
+  id              String   @id @default(uuid()) @db.Uuid
+  panCardNumber   String   @unique
+  aadharNumber    String   @unique
+  isVerified      Boolean  @default(false)
+
+  account         Account?
+}

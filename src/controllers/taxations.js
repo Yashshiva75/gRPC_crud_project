@@ -4,50 +4,96 @@ import { status } from "@grpc/grpc-js";
 
 // Create bulk taxation
 export async function CreateTaxations(call) {
+
+//mapper funciton for sendind data
+  function mapRequestToTaxation(request) {
+  return {
+    title: request.title,
+    taxRate: request.taxRate,
+    effectiveFrom: request.effectiveFrom ? new Date(request.effectiveFrom) : new Date(),
+    effectiveTo: request.effectiveTo ? new Date(request.effectiveTo) : null,
+    createdBy: request.createdBy,
+    createdAt: request.createdAt ? new Date(request.createdAt) : new Date(),
+    documentNumber: request.documentNumber,
+    remarks: request.remarks,
+    isActive: request.isActive ?? true,
+
+    employeeInfo: {
+      create: {
+        name: request.info?.name,
+        age: request.info?.age,
+        designation: request.info?.designation,
+        maritalStatus: request.info?.maritalStatus,
+        department: request.info?.department,
+        joiningDate: request.info?.joiningDate ? new Date(request.info.joiningDate) : null,
+        isActive: request.info?.isActive ?? true,
+      },
+    },
+
+    employeeAddress: {
+      create: {
+        houseNo: request.address?.houseNo,
+        street: request.address?.street,
+        city: request.address?.city,
+        state: request.address?.state,
+        country: request.address?.country,
+        pinCode: request.address?.pinCode,
+        landmark: request.address?.landmark,
+        isActive: request.address?.isActive ?? true,
+      },
+    },
+  };
+}
+
+// map for sending response in postman or res
+
+function mapTaxationToResponse(taxation) {
+  return {
+    id: taxation.id,
+    title: taxation.title,
+    taxRate: taxation.taxRate,
+    effectiveFrom: taxation.effectiveFrom,
+    effectiveTo: taxation.effectiveTo,
+    createdBy: taxation.createdBy,
+    createdAt: taxation.createdAt,
+    documentNumber: taxation.documentNumber,
+    remarks: taxation.remarks,
+    isActive: taxation.isActive,
+    
+    info: taxation.employeeInfo
+      ? {
+          name: taxation.employeeInfo.name,
+          age: taxation.employeeInfo.age,
+          designation: taxation.employeeInfo.designation,
+          maritalStatus: taxation.employeeInfo.maritalStatus,
+          department: taxation.employeeInfo.department,
+          joiningDate: taxation.employeeInfo.joiningDate,
+          isActive: taxation.employeeInfo.isActive,
+        }
+      : null,
+
+    address: taxation.employeeAddress
+      ? {
+          houseNo: taxation.employeeAddress.houseNo,
+          street: taxation.employeeAddress.street,
+          city: taxation.employeeAddress.city,
+          state: taxation.employeeAddress.state,
+          country: taxation.employeeAddress.country,
+          pinCode: taxation.employeeAddress.pinCode,
+          landmark: taxation.employeeAddress.landmark,
+          isActive: taxation.employeeAddress.isActive,
+        }
+      : null,
+  };
+}
+
+
   const taxationRecords = [];
 
   // Receive data stream from client
   call.on("data", (request) => {
-    taxationRecords.push({
-      title: request.title,
-      taxRate: request.taxRate,
-      effectiveFrom: request.effectiveFrom
-        ? new Date(request.effectiveFrom)
-        : new Date(),
-      effectiveTo: request.effectiveTo ? new Date(request.effectiveTo) : null,
-      createdBy: request.createdBy,
-      createdAt: request.createdAt ? new Date(request.createdAt) : new Date(),
-      documentNumber: request.documentNumber,
-      remarks: request.remarks,
-      isActive: request.isActive ?? true,
-
-      employeeInfo: {
-        create: {
-          name: request.info.name,
-          age: request.info.age,
-          designation: request.info.designation,
-          maritalStatus: request.info.maritalStatus,
-          department: request.info.department,
-          joiningDate: request.info.joiningDate
-            ? new Date(request.info.joiningDate)
-            : null,
-          isActive: request.info.isActive ?? true,
-        },
-      },
-
-      employeeAddress: {
-        create: {
-          houseNo: request.address.houseNo,
-          street: request.address.street,
-          city: request.address.city,
-          state: request.address.state,
-          country: request.address.country,
-          pinCode: request.address.pinCode,
-          landmark: request.address.landmark,
-          isActive: request.address.isActive ?? true,
-        },
-      },
-    });
+    const taxationData = mapRequestToTaxation(request);
+    taxationRecords.push(taxationData);
   });
 
   // When client finishes sending data
@@ -66,39 +112,10 @@ export async function CreateTaxations(call) {
       );
 
       for (const tax of createdTaxations) {
+        console.log('nested',mapRequestToTaxation(tax))
         call.write({
           message: `Taxation created successfully for ${tax.title}`,
-          data: {
-            id: tax.id,
-            title: tax.title,
-            taxRate: tax.taxRate,
-            effectiveFrom: tax.effectiveFrom,
-            effectiveTo: tax.effectiveTo,
-            createdBy: tax.createdBy,
-            createdAt: tax.createdAt,
-            documentNumber: tax.documentNumber,
-            remarks: tax.remarks,
-            isActive: tax.isActive,
-            info: {
-              name: tax.employeeInfo.name,
-              age: tax.employeeInfo.age,
-              designation: tax.employeeInfo.designation,
-              maritalStatus: tax.employeeInfo.maritalStatus,
-              department: tax.employeeInfo.department,
-              joiningDate: tax.employeeInfo.joiningDate,
-              isActive: tax.employeeInfo.isActive,
-            },
-            address: {
-              houseNo: tax.employeeAddress.houseNo,
-              street: tax.employeeAddress.street,
-              city: tax.employeeAddress.city,
-              state: tax.employeeAddress.state,
-              country: tax.employeeAddress.country,
-              pinCode: tax.employeeAddress.pinCode,
-              landmark: tax.employeeAddress.landmark,
-              isActive: tax.employeeAddress.isActive,
-            },
-          },
+          data: mapTaxationToResponse(tax)
         });
       }
 
@@ -189,46 +206,51 @@ export async function GetTaxationById(call) {
 
 //Update taxation 
 export async function UpdateTaxations(call) {
+
+  function mapUpdateRequestToTaxation(taxationData) {
+  return {
+    title: taxationData.title,
+    taxRate: taxationData.taxRate,
+    effectiveFrom: taxationData.effectiveFrom ? new Date(taxationData.effectiveFrom) : undefined,
+    effectiveTo: taxationData.effectiveTo ? new Date(taxationData.effectiveTo) : undefined,
+    createdBy: taxationData.createdBy,
+    documentNumber: taxationData.documentNumber,
+    remarks: taxationData.remarks,
+    isActive: taxationData.isActive,
+    createdAt: taxationData.createdAt ? new Date(taxationData.createdAt) : undefined,
+
+    employeeInfo: {
+      update: {
+        name: taxationData.info?.name,
+        age: taxationData.info?.age,
+        designation: taxationData.info?.designation,
+        maritalStatus: taxationData.info?.maritalStatus,
+        department: taxationData.info?.department,
+        joiningDate: taxationData.info?.joiningDate ? new Date(taxationData.info.joiningDate) : undefined,
+        isActive: taxationData.info?.isActive,
+      },
+    },
+
+    employeeAddress: {
+      update: {
+        houseNo: taxationData.address?.houseNo,
+        street: taxationData.address?.street,
+        city: taxationData.address?.city,
+        state: taxationData.address?.state,
+        country: taxationData.address?.country,
+        pinCode: taxationData.address?.pinCode,
+        landmark: taxationData.address?.landmark,
+        isActive: taxationData.address?.isActive,
+      },
+    },
+  };
+}
+
   call.on("data", async (taxationData) => {
     try {
       const updatedTax = await prisma.taxation.update({
         where: { id: taxationData.id },
-        data: {
-          title: taxationData.title,
-          taxRate: taxationData.taxRate,
-          effectiveFrom: new Date(taxationData.effectiveFrom),
-          effectiveTo: new Date(taxationData.effectiveTo),
-          createdBy: taxationData.createdBy,
-          documentNumber: taxationData.documentNumber,
-          remarks: taxationData.remarks,
-          isActive: taxationData.isActive,
-          createdAt: new Date(taxationData.createdAt),
-
-          employeeInfo: {
-            update: {
-              name: taxationData.info.name,
-              age: taxationData.info.age,
-              designation: taxationData.info.designation,
-              maritalStatus: taxationData.info.maritalStatus,
-              department: taxationData.info.department,
-              joiningDate: new Date(taxationData.info.joiningDate),
-              isActive: taxationData.info.isActive,
-            },
-          },
-
-          employeeAddress: {
-            update: {
-              houseNo: taxationData.address.houseNo,
-              street: taxationData.address.street,
-              city: taxationData.address.city,
-              state: taxationData.address.state,
-              country: taxationData.address.country,
-              pinCode: taxationData.address.pinCode,
-              landmark: taxationData.address.landmark,
-              isActive: taxationData.address.isActive,
-            },
-          },
-        },
+        data: mapUpdateRequestToTaxation(taxationData)
       });
 
       call.write({

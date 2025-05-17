@@ -1,6 +1,5 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { Client } from 'pg';
 import grpc from '@grpc/grpc-js';
 import protoLoader from '@grpc/proto-loader';
 const PROTO_PATH = './src/hello.proto';

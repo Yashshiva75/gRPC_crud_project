@@ -19,7 +19,77 @@ service TaxationService {
   rpc GetTaxationById(TaxationId) returns (TaxationResponse);
 }
 
-// Messages
+service Accounting {
+  rpc CreateAccount (stream Account) returns (AccountResponse);
+}
+
+enum AccountType {
+  SAVINGS = 0;
+  CURRENT = 1;
+  SALARY = 2;
+}
+
+enum AccountStatus {
+  ACTIVE = 0;
+  INACTIVE = 1;
+  CLOSED = 2;
+}
+
+// Contact Info
+message ContactInfo {
+  string id = 1;
+  string email = 2;
+  string phone = 3;
+  string address = 4;
+}
+
+// KYC Details
+message KycDetails {
+  string id = 1;
+  string documentType = 2;
+  string documentNumber = 3;
+  string issuedBy = 4;
+  string issuedDate = 5; // Changed from Timestamp to string
+}
+
+// Account main message
+message Account {
+  string id = 1;
+  string holderName = 2;
+  string accountNumber = 3;
+  AccountType type = 4;
+  AccountStatus status = 5;
+  double balance = 6;
+  string openedAt = 7;  // Changed from Timestamp to string
+  bool isActive = 8;
+  string createdAt = 9; // Changed from Timestamp to string
+  string updatedAt = 10; // Changed from Timestamp to string
+
+  ContactInfo contactInfo = 11;
+  KycDetails kycDetails = 12;
+}
+
+// Request/Response Wrappers
+message AccountId {
+  string id = 1;
+}
+
+message AccountList {
+  repeated Account accounts = 1;
+}
+
+message AccountResponse {
+  string message = 1;
+  Account data = 2;
+}
+
+message OperationStatus {
+  string message = 1;
+  string accountId = 2;
+  bool success = 3;
+}
+
+// Messages for taxation
 message TaxationId {
   int32 id = 1;
 }
