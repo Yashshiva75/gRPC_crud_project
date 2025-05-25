@@ -102,7 +102,7 @@ enum AccountStatus{
 model Account {
   id             String        @id @default(uuid()) @db.Uuid
   holderName     String
-  accountNumber  String        @unique
+  accountNumber  String        
   type           AccountType
   status         AccountStatus @default(Active)
   balance        Float
@@ -134,9 +134,25 @@ model ContactInfo {
 
 model KycDetails {
   id              String   @id @default(uuid()) @db.Uuid
-  panCardNumber   String   @unique
-  aadharNumber    String   @unique
+  panCardNumber   String  
+  
   isVerified      Boolean  @default(false)
 
   account         Account?
 }
+
+model student {
+  id    String @id @default(uuid())
+  name   String
+  age    Int
+  class   Int
+  subject String @db.Uuid
+  subject_relation  subject @relation(fields: [subject], references: [id])
+}
+
+model subject {
+  id   String @id @default(uuid()) @db.Uuid
+  sub_name String
+  students student[]
+}
+

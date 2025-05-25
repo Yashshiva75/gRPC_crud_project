@@ -5,7 +5,9 @@ import protoLoader from '@grpc/proto-loader';
 const PROTO_PATH = './src/hello.proto';
 import {CreateTaxations,GetTaxationById,UpdateTaxations} from "./controllers/taxations.js"
 import { status } from "@grpc/grpc-js";
-
+import addStud from "./controllers/test.js";
+import  addSubject  from './controllers/test.js';
+import { createAccount } from './controllers/Accounting.js';
 dotenv.config()
 
 const PORT = process.env.PORT
@@ -16,24 +18,16 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const grpcObject = grpc.loadPackageDefinition(packageDefinition);
 const helloPackage = grpcObject.hello;
 
-// const client = new Client({
+// async function run() {
+//   const student = await addStud();
+//   console.log("New student:", student);
+// }
 
-//   host: 'localhost',
-//   port: 5432, 
-//   user: 'postgres', 
-//   password: password, 
-//   database: 'prismaDb', 
-// });
+// run()
 
-// client.connect()
-//   .then(() => console.log('✅ Connected to PostgreSQL'))
-//   .catch((err) => console.error('❌ Connection error', err.stack));
+// Add sub
+// addSubject("Hindi")
 
-// app.listen(PORT,()=>{
-//     console.log(`Server started at port ${PORT}`)
-// })
-
-// Implement the sayHello function
 const sayHello = (call, callback) => {
   const name = call.request.name;
   callback(null, { message: `Hello, ${name}!` });
@@ -53,6 +47,7 @@ const idGetter = (call, callback) => {
     { Id: 4, name: 'Vinay', age: 26 },
   ];
 
+ 
   const id = call.request.Id;
 
   const user = data.find(d => d.Id === id);
@@ -63,6 +58,7 @@ const idGetter = (call, callback) => {
   // 👇 Ensure this matches `idResponse { info details = 1; }`
   callback(null, { details: { name: user.name, age: user.age } });
 };
+
 
 // Create a gRPC server
 const server = new grpc.Server();
@@ -75,6 +71,9 @@ server.addService(helloPackage.TaxationService.service, {
   GetTaxationById,
   UpdateTaxations
 });
+server.addService(helloPackage.Accounting.service,{
+  createAccount
+})
 // Start the server
 server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50051');

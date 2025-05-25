@@ -247,6 +247,7 @@ export async function UpdateTaxations(call) {
 }
 
   call.on("data", async (taxationData) => {
+    console.log('object',taxationData)
     try {
       const updatedTax = await prisma.taxation.update({
         where: { id: taxationData.id },
@@ -257,6 +258,11 @@ export async function UpdateTaxations(call) {
         id: updatedTax.id,
         message: `Updated taxation with ID ${updatedTax.id}`,
         success: true,
+        data:mapUpdateRequestToTaxation(taxationData),
+        include:{
+          employeeInfo: true,
+          employeeAddress: true
+        }
       });
     } catch (err) {
       console.error(`Error updating taxation ID ${taxationData.id}:`, err.message);

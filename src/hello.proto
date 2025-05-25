@@ -20,7 +20,8 @@ service TaxationService {
 }
 
 service Accounting {
-  rpc CreateAccount (stream Account) returns (AccountResponse);
+  rpc CreateAccount (stream Account) returns (stream AccountResponse);
+  
 }
 
 enum AccountType {
