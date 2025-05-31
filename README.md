@@ -1,42 +1,98 @@
-# 🧾 Taxation Management System (gRPC + Prisma + Node.js)
+# 📚 QuickBooks Class Sync Microservice
 
-A powerful backend service to manage taxation records with detailed employee information and address mapping. Built using **gRPC**, **Node.js**, and **Prisma ORM**, this service ensures high performance, structured communication, and maintainable code for financial operations.
-
----
-
-## 🚀 Features
-
-✅ **Efficient Tax Record Handling**  
-Create, update, retrieve, and stream taxation records with precision and scalability.
-
-✅ **gRPC Powered API**  
-Lightning-fast communication using protocol buffers and gRPC – ideal for microservices and enterprise-grade apps.
-
-✅ **Employee Info Integration**  
-Attach detailed employee profiles (name, age, department, etc.) with tax entries.
-
-✅ **Address Mapping**  
-Maintain complete employee address data linked to taxation records.
-
-✅ **Streaming Support**  
-Supports gRPC streaming for batch updates and real-time tax processing.
-
-✅ **Robust Error Handling**  
-Returns structured error messages and handles edge cases gracefully.
+This Node.js microservice syncs `Class` data between a **local database** (via Prisma ORM) and **QuickBooks Online** using **gRPC streaming**.  
+It receives multiple `Class` entries through a gRPC stream, saves them to the database, and then syncs each to QuickBooks Online.
 
 ---
 
-## 🛠️ Tech Stack
+## ⚙️ Tech Stack
 
-| Layer       | Technology               |
-|-------------|--------------------------|
-| Language    | Node.js (JavaScript)     |
-| ORM         | Prisma ORM               |
-| Transport   | gRPC                     |
-| Database    | PostgreSQL / MySQL (via Prisma) |
-| Dev Tools   | VS Code, Postman (gRPC plugin) |
+- 🟨 **Node.js**
+- 🔄 **gRPC** (for efficient streaming)
+- 📊 **Prisma ORM** (for PostgreSQL/MySQL)
+- 🧾 **QuickBooks Online SDK**
+- 📝 **Protocol Buffers** (`.proto`)
 
 ---
 
-## 📦 Project Structure
+## 🔁 Data Flow
+Client gRPC Stream
+⬇
+Collect Class Data
+⬇
+Save to Local DB via Prisma
+⬇
+Sync Each Class to QuickBooks
+⬇
+Update Local Record with QB ID + SyncToken
+⬇
+Respond with Success Message & Created IDs
+---
+
+## 📄 Example gRPC Request Payload
+
+```json
+{
+  "classes": [
+    {
+      "qb_id": "",
+      "name": "Software Dept",
+      "full_name": "Company / Software Dept",
+      "is_sub_class": true,
+      "is_active": true,
+      "domain_source": "QBO",
+      "version_token": 0,
+      "is_sparse": false
+    }
+  ]
+}
+
+🧩 Understanding the Proto File
+
+syntax = "proto3";
+
+message Class {
+  string qb_id = 1;
+  string name = 2;
+  string full_name = 3;
+  bool is_sub_class = 4;
+  bool is_active = 5;
+  string domain_source = 6;
+  int32 version_token = 7;
+  bool is_sparse = 8;
+}
+
+message ClassRequest {
+  repeated Class classes = 1;
+}
+
+message ClassResponse {
+  repeated string ids = 1;
+  string message = 2;
+}
+
+service ClassService {
+  rpc CreateClass (stream ClassRequest) returns (stream ClassResponse);
+}
+🧠 What is SyncToken?
+SyncToken is QuickBooks’ way to track versioning.
+
+If a record changes in QB, it increases the SyncToken.
+
+To update a record, you must send the latest SyncToken, or your request will be rejected.
+
+✅ Success Response
+{
+  "ids": ["1", "2", "3"],
+  "message": "✅ Classes created and synced successfully"
+}
+🚨 Error Handling
+If database creation or QuickBooks sync fails, the server responds with
+{
+  "ids": [],
+  "message": "❌ Error during creation or QB sync"
+}
+🤝 Contributing
+Want to improve this project? PRs are welcome!
+
 
