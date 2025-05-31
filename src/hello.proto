@@ -22,6 +22,7 @@ service TaxationService {
 service Accounting {
   rpc CreateAccount (stream Account) returns (stream AccountResponse);
   
+  rpc CreateClass (stream BulkCreateClassesRequest) returns (stream BulkCreateClassesResponse);
 }
 
 enum AccountType {
@@ -170,4 +171,28 @@ message info {
 
 message idResponse {
   info details = 1;
+}
+
+
+//Class
+message QBClass {
+  string qb_id = 1;
+  string name = 2;
+  string full_name = 3;
+  bool is_sub_class = 4;
+  bool is_active = 5;
+  string domain_source = 6;
+  int32 version_token = 7;
+  bool is_sparse = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message BulkCreateClassesRequest {
+  repeated QBClass classes = 1;
+}
+
+message BulkCreateClassesResponse {
+  repeated string ids = 1;
+  string message = 2;
 }

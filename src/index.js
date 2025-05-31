@@ -4,29 +4,15 @@ import grpc from '@grpc/grpc-js';
 import protoLoader from '@grpc/proto-loader';
 const PROTO_PATH = './src/hello.proto';
 import {CreateTaxations,GetTaxationById,UpdateTaxations} from "./controllers/taxations.js"
-import { status } from "@grpc/grpc-js";
-import addStud from "./controllers/test.js";
-import  addSubject  from './controllers/test.js';
+import {CreateClass} from "./controllers/Class.js"
 import { createAccount } from './controllers/Accounting.js';
+
 dotenv.config()
 
-const PORT = process.env.PORT
-const password = process.env.PG_PASSWORD
-
-const app = express()
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const grpcObject = grpc.loadPackageDefinition(packageDefinition);
 const helloPackage = grpcObject.hello;
 
-// async function run() {
-//   const student = await addStud();
-//   console.log("New student:", student);
-// }
-
-// run()
-
-// Add sub
-// addSubject("Hindi")
 
 const sayHello = (call, callback) => {
   const name = call.request.name;
@@ -72,12 +58,12 @@ server.addService(helloPackage.TaxationService.service, {
   UpdateTaxations
 });
 server.addService(helloPackage.Accounting.service,{
-  createAccount
+  createAccount,
+  CreateClass
 })
 // Start the server
 server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50051');
-  server.start();
+  
 });
 
-console.log('change in main')

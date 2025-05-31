@@ -112,7 +112,7 @@ function mapTaxationToResponse(taxation) {
       );
 
       for (const tax of createdTaxations) {
-        console.log('nested',mapRequestToTaxation(tax))
+        
         call.write({
           message: `Taxation created successfully for ${tax.title}`,
           data: mapTaxationToResponse(tax)
@@ -121,7 +121,7 @@ function mapTaxationToResponse(taxation) {
 
       call.end(); // close server stream
     } catch (err) {
-      console.error("CreateTaxations failed:", err);
+      
       call.emit("error", {
         code: status.INTERNAL,
         message: `CreateTaxations failed: ${err.message}`,
@@ -195,7 +195,7 @@ export async function GetTaxationById(call) {
 
     call.end();
   } catch (err) {
-    console.error("getTaxationById failed:", err);
+    
     call.emit("error", {
       code: status.INTERNAL,
       message: `getTaxationById failed: ${err.message}`,
@@ -247,7 +247,7 @@ export async function UpdateTaxations(call) {
 }
 
   call.on("data", async (taxationData) => {
-    console.log('object',taxationData)
+    
     try {
       const updatedTax = await prisma.taxation.update({
         where: { id: taxationData.id },
@@ -265,7 +265,6 @@ export async function UpdateTaxations(call) {
         }
       });
     } catch (err) {
-      console.error(`Error updating taxation ID ${taxationData.id}:`, err.message);
       call.write({
         id: taxationData.id,
         message: `Failed to update: ${err.message}`,

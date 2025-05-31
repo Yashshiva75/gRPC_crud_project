@@ -10,7 +10,7 @@ export const createAccount = async (call, callback) => {
     const accountsData = [];
 
     call.on('data', (account) => {
-      console.log('acc', account);
+    
       accountsData.push(account);
     });
 

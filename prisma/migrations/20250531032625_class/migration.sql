@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "QBClass" ALTER COLUMN "qbId" DROP NOT NULL;

@@ -156,3 +156,17 @@ model subject {
   students student[]
 }
 
+model QBClass {
+  id               String   @id @default(uuid()) @db.Uuid
+  qbId             String?   @unique            // Maps to QB's "Id"
+  name             String                     // Maps to QB's "Name"
+  fullName         String?                    // Maps to QB's "FullyQualifiedName"
+  isSubClass       Boolean   @default(false)   // Maps to QB's "SubClass"
+  isActive         Boolean   @default(true)    // Maps to QB's "Active"
+  domainSource     String?                    // Maps to QB's "domain"
+  versionToken     Int       @default(0)       // Maps to QB's "SyncToken" (converted to Int)
+  isSparse         Boolean   @default(false)   // Maps to QB's "sparse"
+
+  createdAt        DateTime  @default(now())   // Maps to QB MetaData.CreateTime
+  updatedAt        DateTime  @updatedAt        // Maps to QB MetaData.LastUpdatedTime
+}
